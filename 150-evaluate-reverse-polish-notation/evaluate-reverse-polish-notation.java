@@ -1,36 +1,29 @@
 class Solution {
     public int evalRPN(String[] tokens) {
-        Stack <String> stack = new Stack<>();
-
-        for (String token : tokens){
-            if (isOperator(token)){
-                int num2 = Integer.parseInt(stack.pop());
-                int num1 = Integer.parseInt(stack.pop());
-                int result = 0;
-
-                if (token.equals("+")){
-                    result = num1 + num2;
-                } else if (token.equals("-")){
-                    result = num1 - num2;
-                } else if (token.equals("*")){
-                    result = num1 * num2;
-                } else if (token.equals("/")){
-                    result = num1 / num2;
-                }
-                stack.push(Integer.toString(result));
-            } else{
-                stack.push(token);
+        Stack<Integer> stack = new Stack<>();
+        
+        for (String token : tokens) {
+            if ("+".equals(token)) {
+                stack.push(stack.pop() + stack.pop());
+            }
+            else if ("-".equals(token)) {
+                int b = stack.pop();
+                int a = stack.pop();
+                stack.push(a - b);
+            }
+            else if ("*".equals(token)) {
+                stack.push(stack.pop() * stack.pop());
+            }
+            else if ("/".equals(token)) {
+                int b = stack.pop();
+                int a = stack.pop();
+                stack.push(a / b);
+            }
+            else {
+                stack.push(Integer.parseInt(token)); // Chỉ parse 1 lần duy nhất
             }
         }
-
-        return Integer.parseInt(stack.peek());
-    }
-
-    private boolean isOperator(String str){
-        if (str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/")){
-            return true;
-        }
-
-        return false;
+        
+        return stack.pop();
     }
 }
