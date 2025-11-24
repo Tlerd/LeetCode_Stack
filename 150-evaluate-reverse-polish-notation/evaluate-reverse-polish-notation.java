@@ -1,29 +1,34 @@
 class Solution {
+    int pos;
+
     public int evalRPN(String[] tokens) {
-        Stack<Integer> stack = new Stack<>();
-        
-        for (String token : tokens) {
-            if ("+".equals(token)) {
-                stack.push(stack.pop() + stack.pop());
-            }
-            else if ("-".equals(token)) {
-                int b = stack.pop();
-                int a = stack.pop();
-                stack.push(a - b);
-            }
-            else if ("*".equals(token)) {
-                stack.push(stack.pop() * stack.pop());
-            }
-            else if ("/".equals(token)) {
-                int b = stack.pop();
-                int a = stack.pop();
-                stack.push(a / b);
-            }
-            else {
-                stack.push(Integer.parseInt(token)); // Chỉ parse 1 lần duy nhất
-            }
+        pos = tokens.length - 1;
+        return evaluate(tokens);
+    }
+
+    private int evaluate(String[] tokens) {
+        String token = tokens[pos--];
+
+        if ("+".equals(token)) {
+            int b = evaluate(tokens);  // lấy vế phải trước
+            int a = evaluate(tokens);  // rồi vế trái
+            return a + b;
         }
-        
-        return stack.pop();
+        if ("-".equals(token)) {
+            int b = evaluate(tokens);
+            int a = evaluate(tokens);
+            return a - b;
+        }
+        if ("*".equals(token)) {
+            int b = evaluate(tokens);
+            int a = evaluate(tokens);
+            return a * b;
+        }
+        if ("/".equals(token)) {
+            int b = evaluate(tokens);
+            int a = evaluate(tokens);
+            return a / b;
+        }
+        return Integer.parseInt(token);
     }
 }
