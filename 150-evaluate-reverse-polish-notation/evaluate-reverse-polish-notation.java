@@ -18,24 +18,18 @@ class Solution {
         String token = tokens[pos--];
 
         if ("+".equals(token)) {
-            int b = evaluate(tokens);  // lấy vế phải trước
-            int a = evaluate(tokens);  // rồi vế trái
-            return a + b;
+            return evaluate(tokens) + evaluate(tokens);
         }
         if ("-".equals(token)) {
-            int b = evaluate(tokens);
-            int a = evaluate(tokens);
-            return a - b;
+            return - evaluate(tokens) + evaluate(tokens);
         }
         if ("*".equals(token)) {
-            int b = evaluate(tokens);
-            int a = evaluate(tokens);
-            return a * b;
+            return evaluate(tokens) * evaluate(tokens);
         }
         if ("/".equals(token)) {
             int b = evaluate(tokens);
-            int a = evaluate(tokens);
-            return a / b;
+            // int a = evaluate(tokens);
+            return evaluate(tokens) / b;
         }
         return Integer.parseInt(token);
     }
